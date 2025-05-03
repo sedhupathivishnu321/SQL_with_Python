@@ -1,0 +1,30 @@
+import sqlite3
+
+# Connect to the database (or create it if it doesn't exist)
+conn = sqlite3.connect('mydatabase.db')
+cursor = conn.cursor()
+
+# Create a table if it doesn't exist
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS names (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL
+    )
+''')
+
+# Insert a name
+name_to_insert = "John Doe"  # Replace with the name you want to insert
+cursor.execute("INSERT INTO names (name) VALUES (?)", (name_to_insert,))
+
+# Commit the changes
+conn.commit()
+
+# Show the table contents
+cursor.execute("SELECT * FROM names")
+rows = cursor.fetchall()
+
+for row in rows:
+    print(row)
+
+# Close the connection
+conn.close()
